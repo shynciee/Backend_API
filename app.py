@@ -14,7 +14,7 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 def send_email(comment):
     msg = EmailMessage()
-    msg["Subject"] = "📬 Góp ý mới từ khách hàng"
+    msg["Subject"] = "Góp ý mới từ người dùng"
     msg["From"] = EMAIL_ADDRESS
     msg["To"] = EMAIL_ADDRESS
     msg.set_content(comment)
@@ -23,9 +23,9 @@ def send_email(comment):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
             smtp.send_message(msg)
-            print("📨 Email đã được gửi!")
+            print("Email đã được gửi!")
     except Exception as e:
-        print("❌ Gửi email thất bại:", e)
+        print("Gửi email thất bại:", e)
 
 
 @app.route("/", methods=["GET"])
@@ -35,16 +35,14 @@ def home():
 
 @app.route("/feedback", methods=["POST"])
 def feedback():
-    print("EMAIL_ADDRESS:", EMAIL_ADDRESS)
-    print("EMAIL_PASSWORD:", EMAIL_PASSWORD)
+    
     try:
         data = request.get_json(force=True)
         comment = data.get("comment", "").strip()
         if comment:
             print(f"Góp ý mới: {comment}")
-            send_email(comment)  # ✅ Gửi Gmail tại đây
+            send_email(comment)  
 
-            # (Không bắt buộc) Ghi vào file nếu muốn
             with open("feedback.txt", "a", encoding="utf-8") as f:
                 f.write(f"[{datetime.datetime.now()}] {comment}\n---\n")
 
@@ -58,7 +56,7 @@ def feedback():
 def view_feedback():
     try:
         if not os.path.exists("feedback.txt"):
-            return "<p>⚠️ Chưa có góp ý nào được ghi lại.</p>"
+            return "<p>Chưa có góp ý nào được ghi lại.</p>"
 
         with open("feedback.txt", "r", encoding="utf-8") as f:
             content = f.read()
