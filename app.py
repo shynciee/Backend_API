@@ -19,3 +19,12 @@ def feedback():
         return jsonify({"status": "fail", "message": "Không có nội dung"}), 400
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+    
+@app.route("/view-feedback", methods=["GET"])
+def view_feedback():
+    try:
+        with open("feedback.txt", "r", encoding="utf-8") as f:
+            content = f.read()
+        return f"<pre>{content}</pre>"
+    except Exception as e:
+        return f"Không đọc được file: {e}"

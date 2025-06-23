@@ -1,10 +1,11 @@
 import requests
 
-res = requests.post(
-    "https://backend-api-znlr.onrender.com/feedback",
-    json={"comment": "Test góp ý từ Python"},
-    timeout=5
-)
+url = "https://backend-api-znlr.onrender.com/view-feedback"
 
-print("Status:", res.status_code)
-print("Response:", res.text)
+try:
+    response = requests.get(url, timeout=5)
+    print("Status:", response.status_code)
+    print("Nội dung góp ý nhận được:\n")
+    print(response.text)
+except Exception as e:
+    print("Lỗi khi gọi API:", e)
