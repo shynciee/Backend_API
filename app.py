@@ -35,6 +35,8 @@ def home():
 
 @app.route("/feedback", methods=["POST"])
 def feedback():
+    print("EMAIL_ADDRESS:", EMAIL_ADDRESS)
+    print("EMAIL_PASSWORD:", EMAIL_PASSWORD)
     try:
         data = request.get_json(force=True)
         comment = data.get("comment", "").strip()
