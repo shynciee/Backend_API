@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import datetime
-
+import os
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
@@ -23,6 +23,9 @@ def feedback():
 @app.route("/view-feedback", methods=["GET"])
 def view_feedback():
     try:
+        if not os.path.exists("feedback.txt"):
+            return "<p>⚠️ Chưa có góp ý nào được ghi lại.</p>"
+
         with open("feedback.txt", "r", encoding="utf-8") as f:
             content = f.read()
         return f"<pre>{content}</pre>"
